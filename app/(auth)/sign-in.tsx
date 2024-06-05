@@ -6,6 +6,8 @@ import images from "../../constants/images";
 import { Image } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import FormField from "../components/FormField";
+import CustomButton from "../components/CustomButton";
+import { Link } from "expo-router";
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -13,11 +15,15 @@ const SignIn = () => {
     password: "",
   });
 
+  const [isSubmitting, setisSubmitting] = useState(false);
+
+  const submitForm = () => {};
+
   return (
     <GestureHandlerRootView>
       <SafeAreaView className="bg-primary h-full">
         <ScrollView>
-          <View className="w-full justify-center h-full full px-4 my-6">
+          <View className="w-full justify-center  px-4 my-6">
             <Image
               resizeMode="contain"
               source={images.logo}
@@ -37,10 +43,36 @@ const SignIn = () => {
               placeholder="password"
               title="Password"
               value={form.password}
-              handleChangeText={(e) => setForm({ ...form, email: e })}
+              handleChangeText={(e) => setForm({ ...form, password: e })}
               otherStyles="mt-7"
               keyboardType="email-address"
             />
+
+            <CustomButton
+              handlePress={submitForm}
+              title="Sign In"
+              containerStyles="mt-7"
+              isLoading={isSubmitting}
+            />
+
+
+
+
+
+
+            <View className="justify-center pt-5 flex-row gap-2">
+              <Text className="text-lg text-white text-sm  font-pregular">
+                {" "}
+                Dont have an account?
+              </Text>
+              <Link
+                className="text-lg text-secondary text-sm  font-psemibold"
+                href="/sign-up"
+              >
+                {" "}
+                Sign Up
+              </Link>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>

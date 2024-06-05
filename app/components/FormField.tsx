@@ -4,6 +4,7 @@ import { TextInput } from "react-native-gesture-handler";
 import images from "@/constants/images";
 import { Image } from "react-native";
 import icons from "@/constants/icons";
+import CustomButton from "./CustomButton";
 
 interface FormFieldProps {
   title: string;
@@ -32,6 +33,7 @@ const FormField: React.FC<FormFieldProps> = ({
 }) => {
   const [showPassword, setshowPassword] = useState(false);
 
+
   return (
     <View className={`space-y-2 ${otherStyles}`}>
       <Text className="text-base text-gray-100 "> {title}</Text>
@@ -59,6 +61,7 @@ const FormField: React.FC<FormFieldProps> = ({
           </TouchableOpacity>
         )}
       </View>
+  
     </View>
   );
 };

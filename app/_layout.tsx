@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 
 import { Stack, SplashScreen } from "expo-router";
 import { useFonts } from "expo-font";
+import { GlobalProvider } from "../context/globalProvider";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,23 +29,27 @@ export default function TabLayout() {
   if (!fontsLoaded && !error) return null;
 
   return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{ headerShown: false }}
-      ></Stack.Screen>
-      <Stack.Screen
-        name="(auth)"
-        options={{ headerShown: false }}
-      ></Stack.Screen>
-      <Stack.Screen
-        name="(tabs)"
-        options={{ headerShown: false }}
-      ></Stack.Screen>
-      {/* <Stack.Screen
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <GlobalProvider>
+        <Stack>
+          <Stack.Screen
+            name="index"
+            options={{ headerShown: false }}
+          ></Stack.Screen>
+          <Stack.Screen
+            name="(auth)"
+            options={{ headerShown: false }}
+          ></Stack.Screen>
+          <Stack.Screen
+            name="(tabs)"
+            options={{ headerShown: false }}
+          ></Stack.Screen>
+          {/* <Stack.Screen
         name="/search/[query]"
         options={{ headerShown: false }}
       ></Stack.Screen> */}
-    </Stack>
+        </Stack>
+      </GlobalProvider>
+    </GestureHandlerRootView>
   );
 }

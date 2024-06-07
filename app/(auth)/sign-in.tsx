@@ -8,6 +8,9 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import FormField from "../components/FormField";
 import CustomButton from "../components/CustomButton";
 import { Link } from "expo-router";
+import { signIn } from "../../lib/appwrite";
+import { Alert } from "react-native";
+import { router } from "expo-router";
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -17,7 +20,25 @@ const SignIn = () => {
 
   const [isSubmitting, setisSubmitting] = useState(false);
 
-  const submitForm = () => {};
+  const submitForm = async () => {
+    if (!form.email || !form.password) {
+      Alert.alert("Error", "Please fill in all fields");
+    }
+
+    setisSubmitting(true);
+
+    try {
+      await signIn(form.email, form.password);
+
+      // set to global state ...
+
+      router.replace("/home");
+    } catch (error) {
+      Alert.alert("Error");
+    } finally {
+      setisSubmitting(false);
+    }
+  };
 
   return (
     <GestureHandlerRootView>
@@ -54,11 +75,6 @@ const SignIn = () => {
               containerStyles="mt-7"
               isLoading={isSubmitting}
             />
-
-
-
-
-
 
             <View className="justify-center pt-5 flex-row gap-2">
               <Text className="text-lg text-white text-sm  font-pregular">

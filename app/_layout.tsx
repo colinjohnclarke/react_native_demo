@@ -44,10 +44,10 @@ export default function TabLayout() {
             name="(tabs)"
             options={{ headerShown: false }}
           ></Stack.Screen>
-          {/* <Stack.Screen
-        name="/search/[query]"
-        options={{ headerShown: false }}
-      ></Stack.Screen> */}
+          <Stack.Screen
+            name="search/[query]"
+            options={{ headerShown: false }}
+          ></Stack.Screen>
         </Stack>
       </GlobalProvider>
     </GestureHandlerRootView>

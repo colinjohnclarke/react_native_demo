@@ -7,16 +7,19 @@ import { Image } from "react-native";
 import Trending from "../components/Trending";
 import SearchInput from "../components/SearchInput";
 import { Alert } from "react-native";
-import { getAllPosts } from "@/lib/appwrite";
-import useAppwrite from "../../lib/useAppwright";
+import { getAllPosts, getLatestPosts } from "@/lib/appwrite";
+import useAppwrite from "../../lib/useAppWrite";
 import VideoCard from "../components/VideoCard";
 import EmptyState from "../components/EmptyState";
 
 const Home = () => {
   const [refreshing, setRefreshing] = useState(false);
+  const { user } = useGlobalContext();
 
   const { data: posts, refetch } = useAppwrite(getAllPosts);
+  const { latestPosts } = useAppwrite(getLatestPosts);
 
+  // const posts = [];
   const onRefresh = async () => {
     setRefreshing(true);
     await refetch();
@@ -34,12 +37,11 @@ const Home = () => {
             <View className="my-6 px-4 space-y-6 border-red">
               <View className="flex-row justify-between ">
                 <Text className="font-pmedium text-sm text-white">
-                  Welcome Back
+                  Welcome ,{user?.username}
                 </Text>
                 <Text className="text-2xl font-psemibold text-white">
                   Colin
                 </Text>
-
                 <View className="justify-between items-start flex-row mb-2">
                   <Image
                     source={images.logoSmall}
@@ -54,8 +56,7 @@ const Home = () => {
               <Text className="text-grey-100 font-pregular text-white text-lg mb-3 mt-5">
                 Latest Videos
               </Text>
-
-              <Trending posts={[{ id: 1 }, { id: 2 }, { id: 3 }] ?? []} />
+              <Trending posts={posts ?? []} />
             </View>
           </View>
         )}

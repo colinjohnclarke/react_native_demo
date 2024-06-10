@@ -8,8 +8,9 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import FormField from "../components/FormField";
 import CustomButton from "../components/CustomButton";
 import { Link } from "expo-router";
-import { createUser, logout } from "../../lib/appwrite";
+import { createUser, signOut } from "../../lib/appwrite";
 import { router } from "expo-router";
+import { useGlobalContext } from "@/context/globalProvider";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -19,6 +20,7 @@ const SignUp = () => {
   });
 
   const [isSubmitting, setisSubmitting] = useState(false);
+  const { setisLoggedIn, user, setUser } = useGlobalContext();
 
   const submitForm = async () => {
     if (!form.username || !form.email || !form.password) {
@@ -30,7 +32,8 @@ const SignUp = () => {
     try {
       const result = await createUser(form.email, form.password, form.username);
 
-      // set to global state ...
+      setUser(result);
+      setisLoggedIn(true);
 
       router.replace("/home");
     } catch (error) {
@@ -82,12 +85,6 @@ const SignUp = () => {
               title="Sign Up"
               containerStyles="mt-7"
               isLoading={isSubmitting}
-            />
-
-            <CustomButton
-              containerStyles="mt-7"
-              title="Log Out"
-              handlePress={logout}
             />
 
             <View className="justify-center pt-5 flex-row gap-2">

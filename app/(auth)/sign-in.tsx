@@ -8,9 +8,10 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import FormField from "../components/FormField";
 import CustomButton from "../components/CustomButton";
 import { Link } from "expo-router";
-import { signIn } from "../../lib/appwrite";
+import { getCurrentUser, signIn } from "../../lib/appwrite";
 import { Alert } from "react-native";
 import { router } from "expo-router";
+import { useGlobalContext } from "@/context/globalProvider";
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -19,6 +20,9 @@ const SignIn = () => {
   });
 
   const [isSubmitting, setisSubmitting] = useState(false);
+
+  const { isLoggedIn, setisLoggedIn, user, setUser, setIsLoading, isLoading } =
+    useGlobalContext();
 
   const submitForm = async () => {
     if (!form.email || !form.password) {
@@ -29,9 +33,9 @@ const SignIn = () => {
 
     try {
       await signIn(form.email, form.password);
-
-      // set to global state ...
-
+      const result = await getCurrentUser();
+      setUser(result);
+      setisLoggedIn(true);
       router.replace("/home");
     } catch (error) {
       Alert.alert("Error");
